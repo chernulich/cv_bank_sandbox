@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
-import java.time.Year;
 
 @Getter
 @Setter
@@ -15,13 +13,13 @@ import java.time.Year;
 @NoArgsConstructor
 public class AchievementDto {
 
-    private Year year;
+    private Integer year;
 
-    @Positive
-    private Integer idCv;
-
-    @Positive
-    private Integer id;
+//    @Positive
+//    private Integer idCv;
+//
+//    @Positive
+//    private Integer id;
 
     @NotBlank
     private String description;

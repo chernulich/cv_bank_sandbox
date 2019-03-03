@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Getter
@@ -35,6 +36,11 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
+    
+    @OneToMany
+    private List<Cv> cvs;
+    
+    
 
 
 }

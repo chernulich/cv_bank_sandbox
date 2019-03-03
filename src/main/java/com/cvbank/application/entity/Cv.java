@@ -25,17 +25,18 @@ public class Cv {
     private User user;
 
     private LocalDate creationDate;
-
+    
+    @Column(unique = true)
     private String position;
 
     private Integer salary;
 
     private String summary;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)  //ManyToMany
     private List <Skill> skills;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL) 
     private List <Project> projects;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -47,7 +48,7 @@ public class Cv {
     @OneToMany(cascade = CascadeType.ALL)
     private List <Achievement> achievements;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL) //ManyToMany
     private List <Language> languages;
 
     private Integer countReview;

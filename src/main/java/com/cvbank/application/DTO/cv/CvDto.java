@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Getter
@@ -28,4 +26,6 @@ public class CvDto {
     private List <String> languages; //indexing
 
     private List <String> links;
+    
+    private Integer salary;
 }

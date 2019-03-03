@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 import java.time.Year;
 
 @Getter
@@ -17,15 +16,15 @@ public class ProjectDto {
 
     // TODO: 2019-02-24  Think abount @Max ! Now Hard Code style
 
-    @Positive
-    private Integer id;
+//    @Positive
+//    private Integer id;
 
-    @Positive
-    private Integer idCv;
+//    @Positive
+//    private Integer idCv;
 
-    private Year fromYear;
+    private Integer fromYear;
 
-    private Year toYear;
+    private Integer toYear;
 
     @NotBlank
     private String position;

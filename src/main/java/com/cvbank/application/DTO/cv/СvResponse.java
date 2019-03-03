@@ -14,13 +14,15 @@ public class СvResponse {
     //This DTO used by HH in search and this DTO return in methods GetCV...
     // First chapter of CvDTO
 
-    private String userName;
+    private String firstName;
+    
+    private String lastName;
 
     private String phone;
 
     private String email;
 
-    private String position;
+    private String position; //indexing
 
     private String summary;
 
@@ -28,5 +30,5 @@ public class СvResponse {
 
     private Integer age;
 
-    private List <String> skills;
+    private List <String> skills; //indexing
 }

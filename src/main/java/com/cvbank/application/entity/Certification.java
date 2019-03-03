@@ -19,6 +19,8 @@ public class Certification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    
     private Integer year;
+    
     private String description;
 }

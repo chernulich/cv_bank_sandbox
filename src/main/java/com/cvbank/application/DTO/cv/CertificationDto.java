@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
-import java.time.Year;
 
 @Getter
 @Setter
@@ -15,13 +13,13 @@ import java.time.Year;
 @NoArgsConstructor
 public class CertificationDto {
 
-    @Positive
-    private Integer id;
+//    @Positive
+//    private Integer id;
+//
+//    @Positive
+//    private Integer idCv;
 
-    @Positive
-    private Integer idCv;
-
-    private Year year;
+    private Integer year;
 
     @NotBlank
     private String description;
