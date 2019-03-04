@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.cvbank.application.DTO.cv.CvDto;
+import com.cvbank.application.DTO.cv.ProjectDto;
 import com.cvbank.application.DTO.cv.СvResponse;
 import com.cvbank.application.entity.Cv;
 import com.cvbank.application.entity.User;
@@ -31,9 +32,11 @@ public class ConverterEntityDto {
 	}
 
 	public static CvDto convCvToCvDto(Cv cv) {
-		// TODO Auto-generated method stub
+		//TODO
 		return null;
 	}
+	
+	
 
 
 }

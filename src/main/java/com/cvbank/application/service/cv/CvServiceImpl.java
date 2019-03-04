@@ -1,6 +1,7 @@
 package com.cvbank.application.service.cv;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -83,6 +84,9 @@ public class CvServiceImpl implements CvService {
 	public void editSkill(Integer cvId, SkillDto skillDto) {                     
 		Cv cv = cvRepository.findById(cvId).orElse(null);
 		List<Skill> skills = cv.getSkills();
+		if (skills == null) {
+			skills = new ArrayList<>();
+		}
 		Skill skill = ConverterDtoEntity.convSkillDtoToEntity(skillDto);
 		skills.add(skill);
 		cvRepository.save(cv);		
@@ -93,7 +97,11 @@ public class CvServiceImpl implements CvService {
 	public void editProject(Integer cvId, ProjectDto projectDto) {
 		Cv cv = cvRepository.findById(cvId).orElse(null);
 		Project project = ConverterDtoEntity.convProjectDtoToEntity(projectDto);	
-		cv.getProjects().add(project);   
+		List<Project> projects = cv.getProjects();   
+		if (projects == null) {
+			projects = new ArrayList<>();
+		}
+		projects.add(project);
 		cvRepository.save(cv);                       // check the saving of the project Entity in the database
 		
 	}
@@ -103,7 +111,11 @@ public class CvServiceImpl implements CvService {
 	public void editCertification(Integer cvId, CertificationDto certificationDto) {
 		Cv cv = cvRepository.findById(cvId).orElse(null);
 		Certification certification = ConverterDtoEntity.convCertificationDtoToEntity(certificationDto);
-		cv.getCertifications().add(certification);
+		List<Certification> certifications = cv.getCertifications();
+		if (certifications == null) {
+			certifications = new ArrayList<>();
+		}
+		certifications.add(certification);
 		cvRepository.save(cv);
 		
 	}
@@ -113,7 +125,11 @@ public class CvServiceImpl implements CvService {
 	public void editAchivement(Integer cvId, AchievementDto achievementDto) {
 		Cv cv = cvRepository.findById(cvId).orElse(null);
 		Achievement achivement = ConverterDtoEntity.convAchievementDtoToEntity(achievementDto);
-		cv.getAchievements().add(achivement);
+		List<Achievement> achievements = cv.getAchievements();
+		if (achievements == null) {
+			achievements = new ArrayList<>();
+		}
+		achievements.add(achivement);
 		cvRepository.save(cv);
 		
 	}
@@ -122,7 +138,11 @@ public class CvServiceImpl implements CvService {
 	@Transactional
 	public void editLanguage(Integer cvId, String language) {
 		Cv cv = cvRepository.findById(cvId).orElse(null);
-		cv.getLanguages().add(Language.builder().name(language).build());
+		List<Language> languages = cv.getLanguages();
+		if(languages == null) {
+			languages = new ArrayList<>();
+		}
+		languages.add(Language.builder().name(language).build());
 		cvRepository.save(cv);
 	}
 
@@ -144,8 +164,8 @@ public class CvServiceImpl implements CvService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public CvDto getCvById(Integer cvId) {
-		// TODO Auto-generated method stub
 		Cv cv = cvRepository.findById(cvId).orElse(null);
 		return ConverterEntityDto.convCvToCvDto(cv);
 	}
