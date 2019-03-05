@@ -15,15 +15,15 @@ import java.time.Year;
 @NoArgsConstructor
 public class EducationDto {
 
-    @Positive
-    private Integer id;
+//    @Positive
+//    private Integer id;
+//
+//    @Positive
+//    private Integer idCv;
 
-    @Positive
-    private Integer idCv;
+    private Integer dateFrom;
 
-    private Year dateFrom;
-
-    private Year dateTo;
+    private Integer dateTo;
 
     @NotBlank
     private String institute;

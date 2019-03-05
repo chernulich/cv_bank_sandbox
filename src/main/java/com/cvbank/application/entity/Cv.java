@@ -50,8 +50,10 @@ public class Cv {
 
     @OneToMany(cascade = CascadeType.ALL) //ManyToMany
     private List <Language> languages;
+    
+    private List <Link> links;
 
-    private Integer countReview;
+    private Integer countReview;      
 
     @Enumerated(EnumType.STRING)
     private CvStatus cvStatus;

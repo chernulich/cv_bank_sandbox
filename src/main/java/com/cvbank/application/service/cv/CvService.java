@@ -5,6 +5,7 @@ import java.util.List;
 import com.cvbank.application.DTO.cv.AchievementDto;
 import com.cvbank.application.DTO.cv.CertificationDto;
 import com.cvbank.application.DTO.cv.CvDto;
+import com.cvbank.application.DTO.cv.EducationDto;
 import com.cvbank.application.DTO.cv.ProjectDto;
 import com.cvbank.application.DTO.cv.SkillDto;
 import com.cvbank.application.DTO.cv.СvResponse;
@@ -40,6 +41,10 @@ public interface CvService {
 	List<СvResponse> getAllCvByUser(String token);
 
 	CvDto getCvById(Integer cvId);
+
+	void editEducation(Integer cvId, EducationDto education);
+
+	void editLink(Integer cvId, String link);
 	
 	
 

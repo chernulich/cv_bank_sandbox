@@ -12,21 +12,25 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cvbank.application.DTO.cv.AchievementDto;
 import com.cvbank.application.DTO.cv.CertificationDto;
 import com.cvbank.application.DTO.cv.CvDto;
+import com.cvbank.application.DTO.cv.EducationDto;
 import com.cvbank.application.DTO.cv.ProjectDto;
 import com.cvbank.application.DTO.cv.SkillDto;
 import com.cvbank.application.DTO.cv.СvResponse;
 import com.cvbank.application.entity.Achievement;
 import com.cvbank.application.entity.Certification;
 import com.cvbank.application.entity.Cv;
+import com.cvbank.application.entity.Education;
 import com.cvbank.application.entity.Language;
+import com.cvbank.application.entity.Link;
 import com.cvbank.application.entity.Project;
 import com.cvbank.application.entity.Skill;
 import com.cvbank.application.entity.User;
 import com.cvbank.application.repository.CvRepository;
-import com.cvbank.application.repository.UserRepository;
+
 import com.cvbank.application.repository.UserSessionRepository;
 import com.cvbank.application.service.converter.entitytodto.ConverterEntityDto;
 import com.cvbank.application.service.converter.dtotoentity.ConverterDtoEntity;
+
 /**
  * 
  * @author Chernulich
@@ -41,10 +45,13 @@ public class CvServiceImpl implements CvService {
 	private UserSessionRepository userSession;
 	
 	@Autowired
-	private UserRepository userRepository;
+	private CvRepository cvRepository;
 	
 	@Autowired
-	private CvRepository cvRepository;
+	private ConverterDtoEntity converterDtoEntity;
+	
+	@Autowired
+	private ConverterEntityDto converterEntityDto;
 	
 
 	@Override
@@ -87,7 +94,7 @@ public class CvServiceImpl implements CvService {
 		if (skills == null) {
 			skills = new ArrayList<>();
 		}
-		Skill skill = ConverterDtoEntity.convSkillDtoToEntity(skillDto);
+		Skill skill = converterDtoEntity.convSkillDtoToEntity(skillDto);
 		skills.add(skill);
 		cvRepository.save(cv);		
 	}
@@ -96,7 +103,7 @@ public class CvServiceImpl implements CvService {
 	@Transactional
 	public void editProject(Integer cvId, ProjectDto projectDto) {
 		Cv cv = cvRepository.findById(cvId).orElse(null);
-		Project project = ConverterDtoEntity.convProjectDtoToEntity(projectDto);	
+		Project project = converterDtoEntity.convProjectDtoToEntity(projectDto);	
 		List<Project> projects = cv.getProjects();   
 		if (projects == null) {
 			projects = new ArrayList<>();
@@ -110,7 +117,7 @@ public class CvServiceImpl implements CvService {
 	@Transactional
 	public void editCertification(Integer cvId, CertificationDto certificationDto) {
 		Cv cv = cvRepository.findById(cvId).orElse(null);
-		Certification certification = ConverterDtoEntity.convCertificationDtoToEntity(certificationDto);
+		Certification certification = converterDtoEntity.convCertificationDtoToEntity(certificationDto);
 		List<Certification> certifications = cv.getCertifications();
 		if (certifications == null) {
 			certifications = new ArrayList<>();
@@ -124,7 +131,7 @@ public class CvServiceImpl implements CvService {
 	@Transactional
 	public void editAchivement(Integer cvId, AchievementDto achievementDto) {
 		Cv cv = cvRepository.findById(cvId).orElse(null);
-		Achievement achivement = ConverterDtoEntity.convAchievementDtoToEntity(achievementDto);
+		Achievement achivement = converterDtoEntity.convAchievementDtoToEntity(achievementDto);
 		List<Achievement> achievements = cv.getAchievements();
 		if (achievements == null) {
 			achievements = new ArrayList<>();
@@ -149,6 +156,9 @@ public class CvServiceImpl implements CvService {
 	@Override
 	@Transactional
 	public void deleteCv(Integer cvId) {
+		
+		//TODO 
+		
 		cvRepository.deleteById(cvId);
 	}
 
@@ -158,16 +168,41 @@ public class CvServiceImpl implements CvService {
 		User user = userSession.findUserByToken(token);
 		List<Cv> cvs = user.getCvs();
 		List<СvResponse> cvsResponse = cvs.stream()
-										  .map((cv) -> ConverterEntityDto.convCvToCvResponse(user, cv))
+										  .map((cv) -> converterEntityDto.convCvToCvResponse(user, cv))
 										  .collect(Collectors.toList());
 		return cvsResponse;
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public CvDto getCvById(Integer cvId) {
+	public CvDto getCvById(Integer cvId) {                       
 		Cv cv = cvRepository.findById(cvId).orElse(null);
-		return ConverterEntityDto.convCvToCvDto(cv);
+		return converterEntityDto.convCvToCvDto(cv);
+	}
+
+	@Override
+	@Transactional
+	public void editEducation(Integer cvId, EducationDto educationDto) {
+		Cv cv = cvRepository.findById(cvId).orElse(null);
+		Education education = converterDtoEntity.convEducationDtoToEntity(educationDto);
+		List<Education> educations = cv.getEducations();
+		if(educations == null) {
+			educations = new ArrayList<>();
+		}
+		educations.add(education);
+		cvRepository.save(cv);
+	}
+
+	@Override
+	@Transactional
+	public void editLink(Integer cvId, String link) {
+		Cv cv = cvRepository.findById(cvId).orElse(null);
+		List<Link> links = cv.getLinks();
+		if (links == null) {
+			links = new ArrayList<>();
+		}
+		links.add(Link.builder().link(link).build());
+		cvRepository.save(cv);					
 	}
 	
 	

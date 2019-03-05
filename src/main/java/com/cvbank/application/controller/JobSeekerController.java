@@ -31,6 +31,15 @@ public class JobSeekerController {
     	cvService.editPosition(cvId, position);
 
     }
+    
+    @PostMapping("/edit/link")
+    public void editLink(@RequestHeader("Authorization") String token,
+    						 @RequestParam("cvId") Integer cvId,
+                             @RequestParam("link") String link) {
+    	cvService.editLink(cvId, link);
+
+    }
+
 
     @PostMapping("/edit/salary")
     public void editSalary(@RequestHeader("Authorization") String token,
@@ -61,6 +70,14 @@ public class JobSeekerController {
     						@RequestParam(name = "cvId") Integer cvId,
                             @RequestBody ProjectDto project) {
     	cvService.editProject(cvId, project);
+
+    }
+    
+    @PostMapping("/edit/education")
+    public void editEducation(@RequestHeader("Authorization") String token,
+    						@RequestParam(name = "cvId") Integer cvId,
+                            @RequestBody EducationDto education) {
+    	cvService.editEducation(cvId, education);
 
     }
 
