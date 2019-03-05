@@ -68,23 +68,25 @@ public class ConverterEntityDtoImpl implements ConverterEntityDto{
 	}
 
 	private AchievementDto convAchievementToDto(Achievement achievement) {
-		// TODO Auto-generated method stub
-		return null;
+		return AchievementDto.builder().description(achievement.getDescription())
+							 .nomination(achievement.getNomination())
+							 .year(achievement.getYear()).build();
 	}
 
 	private CertificationDto convCertificationToDto(Certification certification) {
-		// TODO Auto-generated method stub
-		return null;
+		return CertificationDto.builder().description(certification.getDescription())
+							   .year(certification.getYear()).build();
 	}
 
 	private EducationDto convEducationToDto(Education education) {
-		// TODO Auto-generated method stub
-		return null;
+		return EducationDto.builder().dateFrom(education.getDateFrom()).dateTo(education.getDateTo())
+						   .institute(education.getInstitute()).build();
 	}
 
 	private ProjectDto convProjectToDto(Project project) {
-		// TODO Auto-generated method stub
-		return null;
+		return ProjectDto.builder().company(project.getCompany()).fromYear(project.getFromYear())
+						 .toYear(project.getToYear()).info(project.getInfo()).locale(project.getLocale())
+						 .position(project.getPosition()).build();
 	}
 	
 	

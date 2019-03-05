@@ -4,6 +4,11 @@ import com.cvbank.application.DTO.cv.CvDto;
 import com.cvbank.application.DTO.cv.СvResponse;
 import com.cvbank.application.entity.Cv;
 import com.cvbank.application.entity.User;
+/**
+ * 
+ * @author Chernulich
+ *
+ */
 
 public interface ConverterEntityDto {
 	

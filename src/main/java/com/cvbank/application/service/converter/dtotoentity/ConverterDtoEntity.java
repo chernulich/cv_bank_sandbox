@@ -11,7 +11,11 @@ import com.cvbank.application.entity.Education;
 import com.cvbank.application.entity.Language;
 import com.cvbank.application.entity.Project;
 import com.cvbank.application.entity.Skill;
-
+/**
+ * 
+ * @author Chernulich
+ *
+ */
 public interface ConverterDtoEntity {
 	
 	Skill convSkillDtoToEntity(SkillDto skillDto);
