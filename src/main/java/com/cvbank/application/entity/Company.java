@@ -3,7 +3,7 @@ package com.cvbank.application.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -11,33 +11,38 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(name = "companies")
 public class Company {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_companies")
     private Integer id;
 
-    @Column
+    @Column(name = "name_company")
     private String name;
 
-    @Column
+    @Column(name = "link")
     private String link;
 
-    @Column
+    @Column(name = "post_code", length = 10)
     private Integer postcode;
 
-    @Column
+    @Column(name = "phone", length = 20)
     public String phone;
 
-    @Column
+    @Column(name = "country", length = 50)
     public String country;
 
-    @Column
+    @Column(name = "city", length = 50)
     public String city;
 
-    @Column
+    @Column(name = "address")
     public String address;
 
-    @OneToMany
-    public List <User> users;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "mtm_users_companies", 
+               joinColumns = {@JoinColumn(name = "id_companies")}, 
+               inverseJoinColumns = {@JoinColumn(name = "id_user")})
+    public Set<User> users;
 }
