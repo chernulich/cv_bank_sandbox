@@ -1,6 +1,7 @@
 package com.cvbank.application.entity;
 
 import com.cvbank.application.entity.type.CvStatus;
+import com.cvbank.application.entity.type.converter.CvStatusConverter;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,14 +23,12 @@ import java.time.LocalDate;
 
 public class Cv {
 
-    // TODO: 2019-02-24 Think about relationships
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cv")
     private Integer id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
     private User user;
     
@@ -51,9 +50,7 @@ public class Cv {
     @Column(name = "count_review")
     private Integer countReview;      
     
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_dir_cv_status")
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = CvStatusConverter.class)
     private CvStatus cvStatus;
     
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

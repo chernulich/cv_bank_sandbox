@@ -1,35 +1,31 @@
 package com.cvbank.application.service.cv;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
-
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cvbank.application.DTO.cv.AchievementDto;
-import com.cvbank.application.DTO.cv.CertificationDto;
+import com.cvbank.application.DTO.cv.BackgroundDto;
 import com.cvbank.application.DTO.cv.CvDto;
-import com.cvbank.application.DTO.cv.EducationDto;
-import com.cvbank.application.DTO.cv.ProjectDto;
-import com.cvbank.application.DTO.cv.SkillDto;
-import com.cvbank.application.DTO.cv.СvResponse;
 import com.cvbank.application.entity.Achievement;
 import com.cvbank.application.entity.Certification;
 import com.cvbank.application.entity.Cv;
 import com.cvbank.application.entity.Education;
 import com.cvbank.application.entity.Language;
-import com.cvbank.application.entity.Link;
 import com.cvbank.application.entity.Project;
 import com.cvbank.application.entity.Skill;
 import com.cvbank.application.entity.User;
+import com.cvbank.application.repository.AchievementRepository;
+import com.cvbank.application.repository.CertificationRepository;
 import com.cvbank.application.repository.CvRepository;
-
+import com.cvbank.application.repository.EducationRepository;
+import com.cvbank.application.repository.LanguageRepository;
+import com.cvbank.application.repository.ProjectRepository;
+import com.cvbank.application.repository.SkillRepository;
 import com.cvbank.application.repository.UserSessionRepository;
-import com.cvbank.application.service.converter.entitytodto.ConverterEntityDto;
-import com.cvbank.application.service.converter.dtotoentity.ConverterDtoEntity;
 
 /**
  * 
@@ -48,10 +44,27 @@ public class CvServiceImpl implements CvService {
 	private CvRepository cvRepository;
 	
 	@Autowired
-	private ConverterDtoEntity converterDtoEntity;
+	private LanguageRepository languageRepository;
+	
+//	@Autowired
+//	private ConverterEntityDto converterEntityDto;
 	
 	@Autowired
-	private ConverterEntityDto converterEntityDto;
+	private SkillRepository skillRepository;
+	
+	@Autowired
+	private AchievementRepository achievementRepository;
+	
+	@Autowired
+	private CertificationRepository certificationRepository;
+	
+	@Autowired
+	private EducationRepository educationRepository;
+	
+	@Autowired
+	private ProjectRepository projectRepository;
+	
+	
 	
 
 	@Override
@@ -61,149 +74,102 @@ public class CvServiceImpl implements CvService {
 		Cv cv = Cv.builder().user(user).creationDate(LocalDate.now()).build();
 		return cvRepository.save(cv).getId();
 	}
-
-	@Override
+	
+	@Override        //TODO
 	@Transactional
-	public void editPosition(Integer cvId, String position) {
+	public void editSkills(Integer cvId, List<String> skillNames) {
+		Cv cv = cvRepository.findById(cvId).get();
+		for (int i = 0; i < skillNames.size(); i++) {
+			List<Skill> skills = skillRepository.findBySkillName(skillNames.get(i));
+			if (skills == null) {
+				Set<Cv> cvs = new HashSet<>();
+				cvs.add(cv);
+				Skill skill = Skill.builder().skillName(skillNames.get(i)).cvs(cvs).build();
+				skillRepository.save(skill);
+			}else {
+				skills.get(0).getCvs().add(cv);
+			}	
+		}
+		
+	}
+
+	@Override         //TODO
+	@Transactional
+	public void editLanguages(Integer cvId, List<String> languageNames) {
 		Cv cv = cvRepository.findById(cvId).orElse(null);
-		cv.setPosition(position);
+		for (int i = 0; i < languageNames.size(); i++) {
+			List<Language> languages = languageRepository.findByLanguageName(languageNames.get(i));
+			if (languages == null) {
+				Set<Cv> cvs = new HashSet<>();
+				cvs.add(cv);
+				Language language = Language.builder().languageName(languageNames.get(i)).cvs(cvs).build();
+				languageRepository.save(language);
+			}else {
+				languages.get(0).getCvs().add(cv);
+			}
+		}
+	}
+	
+	@Override      //TODO
+	@Transactional
+	public void editCv(String token, Integer id, CvDto cvDto) {
+		// TODO Auto-generated method stub
+		Cv cv = cvRepository.findById(id).orElse(null);
+		if (cv == null) {
+			User user = userSession.findUserByToken(token);
+			cv = Cv.builder().user(user).build();
+		}
+		cv.setCreationDate(LocalDate.now());
+		cv.setLinks(cvDto.getLinks());
+		cv.setPosition(cvDto.getPosition());
+		cv.setSalary(cvDto.getSalary());
+		cv.setSummary(cvDto.getSummary());
 		cvRepository.save(cv);
 	}
 
 	@Override
 	@Transactional
-	public void editSalary(Integer cvId, Integer salary) {
-		Cv cv = cvRepository.findById(cvId).orElse(null);
-		cv.setSalary(salary);
-		cvRepository.save(cv);	
-	}
-
-	@Override
-	@Transactional
-	public void editSummary(Integer cvId, String summary) {
-		Cv cv = cvRepository.findById(cvId).orElse(null);
-		cv.setSummary(summary);
-		cvRepository.save(cv);			
-	}
-
-	@Override
-	@Transactional
-	public void editSkill(Integer cvId, SkillDto skillDto) {                     
-		Cv cv = cvRepository.findById(cvId).orElse(null);
-		List<Skill> skills = cv.getSkills();
-		if (skills == null) {
-			skills = new ArrayList<>();
+	public void editAchievement(Integer cvId, Achievement achievement) {
+		if(achievement.getId() == null) {
+			Cv cv = cvRepository.findById(cvId).get();
+			achievement.setCv(cv);
 		}
-		Skill skill = converterDtoEntity.convSkillDtoToEntity(skillDto);
-		skills.add(skill);
-		cvRepository.save(cv);		
+		achievementRepository.save(achievement);
 	}
 
 	@Override
 	@Transactional
-	public void editProject(Integer cvId, ProjectDto projectDto) {
-		Cv cv = cvRepository.findById(cvId).orElse(null);
-		Project project = converterDtoEntity.convProjectDtoToEntity(projectDto);	
-		List<Project> projects = cv.getProjects();   
-		if (projects == null) {
-			projects = new ArrayList<>();
+	public void editCertification(Integer cvId, Certification certification) {
+		if(certification.getId() == null) {
+			Cv cv = cvRepository.findById(cvId).get();
+			certification.setCv(cv);
 		}
-		projects.add(project);
-		cvRepository.save(cv);                       // check the saving of the project Entity in the database
-		
+		certificationRepository.save(certification);
 	}
 
 	@Override
 	@Transactional
-	public void editCertification(Integer cvId, CertificationDto certificationDto) {
-		Cv cv = cvRepository.findById(cvId).orElse(null);
-		Certification certification = converterDtoEntity.convCertificationDtoToEntity(certificationDto);
-		List<Certification> certifications = cv.getCertifications();
-		if (certifications == null) {
-			certifications = new ArrayList<>();
+	public void editEducation(Integer cvId, Education education) {
+		if(education.getId() == null) {
+			Cv cv = cvRepository.findById(cvId).get();
+			education.setCv(cv);
 		}
-		certifications.add(certification);
-		cvRepository.save(cv);
-		
+		educationRepository.save(education);
 	}
 
 	@Override
 	@Transactional
-	public void editAchivement(Integer cvId, AchievementDto achievementDto) {
-		Cv cv = cvRepository.findById(cvId).orElse(null);
-		Achievement achivement = converterDtoEntity.convAchievementDtoToEntity(achievementDto);
-		List<Achievement> achievements = cv.getAchievements();
-		if (achievements == null) {
-			achievements = new ArrayList<>();
+	public void editProject(Integer cvId, Project project) {
+		if(project.getId() == null) {
+			Cv cv = cvRepository.findById(cvId).get();
+			project.setCv(cv);
 		}
-		achievements.add(achivement);
-		cvRepository.save(cv);
-		
+		projectRepository.save(project);
 	}
 
-	@Override
-	@Transactional
-	public void editLanguage(Integer cvId, String language) {
-		Cv cv = cvRepository.findById(cvId).orElse(null);
-		List<Language> languages = cv.getLanguages();
-		if(languages == null) {
-			languages = new ArrayList<>();
-		}
-		languages.add(Language.builder().name(language).build());
-		cvRepository.save(cv);
-	}
+	
 
-	@Override
-	@Transactional
-	public void deleteCv(Integer cvId) {
-		
-		//TODO 
-		
-		cvRepository.deleteById(cvId);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<СvResponse> getAllCvByUser(String token) {
-		User user = userSession.findUserByToken(token);
-		List<Cv> cvs = user.getCvs();
-		List<СvResponse> cvsResponse = cvs.stream()
-										  .map((cv) -> converterEntityDto.convCvToCvResponse(user, cv))
-										  .collect(Collectors.toList());
-		return cvsResponse;
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public CvDto getCvById(Integer cvId) {                       
-		Cv cv = cvRepository.findById(cvId).orElse(null);
-		return converterEntityDto.convCvToCvDto(cv);
-	}
-
-	@Override
-	@Transactional
-	public void editEducation(Integer cvId, EducationDto educationDto) {
-		Cv cv = cvRepository.findById(cvId).orElse(null);
-		Education education = converterDtoEntity.convEducationDtoToEntity(educationDto);
-		List<Education> educations = cv.getEducations();
-		if(educations == null) {
-			educations = new ArrayList<>();
-		}
-		educations.add(education);
-		cvRepository.save(cv);
-	}
-
-	@Override
-	@Transactional
-	public void editLink(Integer cvId, String link) {
-		Cv cv = cvRepository.findById(cvId).orElse(null);
-		List<Link> links = cv.getLinks();
-		if (links == null) {
-			links = new ArrayList<>();
-		}
-		links.add(Link.builder().link(link).build());
-		cvRepository.save(cv);					
-	}
+	
 	
 	
 	

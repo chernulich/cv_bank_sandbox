@@ -1,6 +1,10 @@
 package com.cvbank.application.controller;
 
 import com.cvbank.application.DTO.cv.*;
+import com.cvbank.application.entity.Achievement;
+import com.cvbank.application.entity.Certification;
+import com.cvbank.application.entity.Education;
+import com.cvbank.application.entity.Project;
 import com.cvbank.application.service.cv.CvService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,91 +23,68 @@ public class JobSeekerController {
 	@Autowired
 	private CvService cvService;
 
-    @PostMapping("/edit/create_cv")
+    @PostMapping("/create/cv")
     public Integer createEmptyCv(@RequestHeader("Authorization") String token) {
         return cvService.createEmptyCv(token);
     }
+    
+    @PostMapping("/edit/cv")
+    public void editCv(@RequestHeader("Authorization") String token,
+			 			@RequestParam(name = "id") Integer id,
+			 			@RequestBody CvDto cvDto) {
+    	cvService.editCv(token, id, cvDto);
+    }
 
-    @PostMapping("/edit/position")
-    public void editPosition(@RequestHeader("Authorization") String token,
-    						 @RequestParam("cvId") Integer cvId,
-                             @RequestParam("position") String position) {
-    	cvService.editPosition(cvId, position);
+    @PostMapping("/edit/skills")
+    public void editSkills(@RequestHeader("Authorization") String token,
+    					  @RequestParam(name = "cvId") Integer cvId,
+                          @RequestBody List<String> skillNames) {               //  or @RequestParam String skillName?
+    	cvService.editSkills(cvId, skillNames);
 
+    }
+
+    @PostMapping("/edit/languages")
+    public void editLanguage(@RequestHeader("Authorization") String token,
+    						 @RequestParam(name = "cvId") Integer cvId,
+                             @RequestParam List<String> languageNames) {
+    	cvService.editLanguages(cvId, languageNames);
     }
     
-    @PostMapping("/edit/link")
-    public void editLink(@RequestHeader("Authorization") String token,
-    						 @RequestParam("cvId") Integer cvId,
-                             @RequestParam("link") String link) {
-    	cvService.editLink(cvId, link);
-
+    @PostMapping("/edit/Background")
+    public void editBackground(@RequestHeader("Authorization") String token,
+    						 @RequestParam(name = "cvId") Integer cvId,
+    						 @RequestBody BackgroundDto backgroundDto) {
+    	cvService.editBackground(cvId, backgroundDto);
     }
-
-
-    @PostMapping("/edit/salary")
-    public void editSalary(@RequestHeader("Authorization") String token,
-    					   @RequestParam(name = "cvId") Integer cvId,
-                           @RequestParam(name = "salary") Integer salary) {
-    	cvService.editSalary(cvId, salary);
-
+    
+    @PostMapping("/edit/achievement")
+    public void editAchievement(@RequestHeader("Authorization") String token,
+    						 @RequestParam(name = "cvId") Integer cvId,
+    						 @RequestBody Achievement achievement) {
+    	cvService.editAchievement(cvId, achievement);
     }
-
-    @PostMapping("/edit/summary")
-    public void editSummary(@RequestHeader("Authorization") String token,
-    						@RequestParam(name = "cvId") Integer cvId,
-                            @RequestParam("summary") String summary) {
-    	cvService.editSummary(cvId, summary);
-
-    }
-
-    @PostMapping("/edit/skill")
-    public void editSkill(@RequestHeader("Authorization") String token,
-    					  @RequestParam(name = "cvId") Integer cvId,
-                          @RequestBody SkillDto skill) {               //  or @RequestParam String skillName?
-    	cvService.editSkill(cvId, skill);
-
-    }
-
-    @PostMapping("/edit/project")
-    public void editProject(@RequestHeader("Authorization") String token,
-    						@RequestParam(name = "cvId") Integer cvId,
-                            @RequestBody ProjectDto project) {
-    	cvService.editProject(cvId, project);
-
+    
+    @PostMapping("/edit/certification")
+    public void editCertification(@RequestHeader("Authorization") String token,
+    						 @RequestParam(name = "cvId") Integer cvId,
+    						 @RequestBody Certification certification) {
+    	cvService.editCertification(cvId, certification);
     }
     
     @PostMapping("/edit/education")
     public void editEducation(@RequestHeader("Authorization") String token,
-    						@RequestParam(name = "cvId") Integer cvId,
-                            @RequestBody EducationDto education) {
-    	cvService.editEducation(cvId, education);
-
-    }
-
-    @PostMapping("/edit/certification")
-    public void editCertification(@RequestHeader("Authorization") String token,
-    							  @RequestParam(name = "cvId") Integer cvId,
-                                  @RequestBody CertificationDto certification) {
-    	cvService.editCertification(cvId, certification);
-
-    }
-
-    @PostMapping("/edit/achievement")
-    public void editAchivement(@RequestHeader("Authorization") String token,
-    						   @RequestParam(name = "cvId") Integer cvId,
-                               @RequestBody AchievementDto achievement) {
-    	cvService.editAchivement(cvId, achievement);
-
-    }
-
-    @PostMapping("/edit/language")
-    public void editLanguage(@RequestHeader("Authorization") String token,
     						 @RequestParam(name = "cvId") Integer cvId,
-                             @RequestParam String language) {
-    	cvService.editLanguage(cvId, language);
-
+    						 @RequestBody Education education) {
+    	cvService.editEducation(cvId, education);
     }
+    
+    @PostMapping("/edit/project")
+    public void editProject(@RequestHeader("Authorization") String token,
+    						 @RequestParam(name = "cvId") Integer cvId,
+    						 @RequestBody Project project) {
+    	cvService.editProject(cvId, project);
+    }
+
 
     @DeleteMapping("/delete/{id}")
     public void deleteCv(@RequestHeader("Authorization") String token,
@@ -111,15 +92,15 @@ public class JobSeekerController {
     	cvService.deleteCv(cvId);	
     }
 
-    @GetMapping("/get_all")
-    public List <СvResponse> getAllCvByUser(@RequestHeader("Authorization") String token) {
-        return cvService.getAllCvByUser(token);
-    }
-    
-    @GetMapping("/get_cv")
-    public CvDto getCvById(@RequestHeader("Authorization") String token,
-    					   @RequestParam(name = "cvId") Integer cvId) {
-        return cvService.getCvById(cvId);
-    }
+//    @GetMapping("/get_all")
+//    public List <СvResponse> getAllCvByUser(@RequestHeader("Authorization") String token) {
+//        return cvService.getAllCvByUser(token);
+//    }
+//    
+//    @GetMapping("/get_cv")
+//    public CvDto getCvById(@RequestHeader("Authorization") String token,
+//    					   @RequestParam(name = "cvId") Integer cvId) {
+//        return cvService.getCvById(cvId);
+//    }
 
 }

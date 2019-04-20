@@ -31,8 +31,8 @@ public class Skill {
     @Column(name = "name_skill", unique = true, length = 100)
     private String skillName;
     
-    @Column(name = "count_of_use")
-    private Integer count;           // What it is?
+//    @Column(name = "count_of_use")
+//    private Integer count;           // What it is?
     
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "mtm_cv_dir_skills", 

@@ -14,12 +14,6 @@ import javax.validation.constraints.NotBlank;
 
 public class SkillDto {
 
-//    @Positive
-//    private Integer id;
-
-//    @Positive
-//    private Integer idCv;
-
     @NotBlank
     private String skillName;
 
