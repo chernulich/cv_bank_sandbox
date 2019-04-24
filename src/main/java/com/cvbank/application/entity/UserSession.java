@@ -1,4 +1,5 @@
 package com.cvbank.application.entity;
+
 import lombok.*;
 
 import javax.persistence.*;

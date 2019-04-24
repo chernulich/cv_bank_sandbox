@@ -23,32 +23,29 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user")
     private Integer id;
-    
+
     @Column(name = "first_name", length = 100)
     private String firstName;
-    
+
     @Column(name = "last_name", length = 100)
     private String lastName;
-    
+
     @Column(name = "phone", length = 20)
     private String phone;
-    
+
     @Column(name = "birthday")
     private LocalDate birthday;
 
     @Email
     @Column(name = "email")
     private String email;
-    
+
     @Column(name = "city")
     private String city;
-    
+
     @Convert(converter = RoleTypeConverter.class)
 //    @Enumerated(EnumType.STRING)
     private RoleType roleType;
-    
-    
-    
 
 
 }

@@ -6,7 +6,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmailServiceImpl implements EmailService{
+public class EmailServiceImpl implements EmailService {
 
     private final String REGISTRATION_SUBJECT = "Registration on CV Bank";
     private final String REGISTRATION_TEXT = "Thank you for your choice";

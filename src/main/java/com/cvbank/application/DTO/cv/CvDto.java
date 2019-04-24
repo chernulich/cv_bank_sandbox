@@ -10,14 +10,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class CvDto {
-	
-	private Integer cvId;
-    
+
+    private Integer cvId;
+
     private String position;
-    
+
     private Integer salary;
-   
+
     private String summary;
-   
-    private String links; 
+
+    private String links;
 }

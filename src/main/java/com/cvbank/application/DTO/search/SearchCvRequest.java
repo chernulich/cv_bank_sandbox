@@ -22,10 +22,10 @@ public class SearchCvRequest {
     private String profArea;
 
     @NotBlank
-    private List <String> regions;
+    private List<String> regions;
 
     @NotBlank
-    private List <String> skills;
+    private List<String> skills;
 
     @Positive
     private Double minSalary;

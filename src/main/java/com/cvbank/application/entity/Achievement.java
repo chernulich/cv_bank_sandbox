@@ -19,18 +19,18 @@ public class Achievement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_achievement")
     private Integer id;
-    
+
     @Column(name = "year", length = 4, columnDefinition = "year")
     private Year year;
-    
+
     @Column(name = "description")
     private String description;
-    
+
     @Column(name = "nomination")
     private String nomination;
-    
+
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cv")
-	private Cv cv;
+    private Cv cv;
 
 }

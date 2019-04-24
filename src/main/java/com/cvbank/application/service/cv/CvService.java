@@ -12,37 +12,34 @@ import com.cvbank.application.entity.Education;
 import com.cvbank.application.entity.Project;
 
 /**
- * 
  * @author Chernulich
- *
  */
 
 public interface CvService {
 
-	Integer createEmptyCv(String token);
+    Integer createEmptyCv(String token);
 
-	void editSkills(Integer cvId, List<String> skillNames);
+    void editSkills(Integer cvId, List<String> skillNames);
 
-	void editLanguages(Integer cvId, List<String> languageNames);
+    void editLanguages(Integer cvId, List<String> languageNames);
 
-	void deleteCv(Integer cvId);
+    void deleteCv(Integer cvId);
 
 //	List<СvResponse> getAllCvByUser(String token);
 //
 //	CvDto getCvById(Integer cvId);
 
-	void editCv(String token, Integer id, CvDto cvDto);
+    void editCv(String token, Integer id, CvDto cvDto);
 
-	void editBackground(Integer cvId, BackgroundDto backgroundDto);
+    void editBackground(Integer cvId, BackgroundDto backgroundDto);
 
-	void editAchievement(Integer cvId, Achievement achievement);
+    void editAchievement(Integer cvId, Achievement achievement);
 
-	void editCertification(Integer cvId, Certification certification);
+    void editCertification(Integer cvId, Certification certification);
 
-	void editEducation(Integer cvId, Education education);
+    void editEducation(Integer cvId, Education education);
 
-	void editProject(Integer cvId, Project project);
-	
-	
+    void editProject(Integer cvId, Project project);
+
 
 }

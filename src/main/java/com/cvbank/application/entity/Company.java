@@ -41,8 +41,8 @@ public class Company {
     public String address;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "mtm_users_companies", 
-               joinColumns = {@JoinColumn(name = "id_companies")}, 
-               inverseJoinColumns = {@JoinColumn(name = "id_user")})
+    @JoinTable(name = "mtm_users_companies",
+            joinColumns = {@JoinColumn(name = "id_companies")},
+            inverseJoinColumns = {@JoinColumn(name = "id_user")})
     public Set<User> users;
 }

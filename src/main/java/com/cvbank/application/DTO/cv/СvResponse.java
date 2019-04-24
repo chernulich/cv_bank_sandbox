@@ -15,7 +15,7 @@ public class СvResponse {
     // First chapter of CvDTO
 
     private String firstName;
-    
+
     private String lastName;
 
     private String phone;
@@ -30,5 +30,5 @@ public class СvResponse {
 
     private Integer age;
 
-    private List <String> skills; //indexing
+    private List<String> skills; //indexing
 }

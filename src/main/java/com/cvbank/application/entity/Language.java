@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Table(name = "dir_languages")
 
 /**
- * 
+ *
  * @author Chernulich
  *
  */
@@ -28,11 +28,11 @@ public class Language {
 
     @Column(name = "name_language", unique = true, length = 100)
     private String languageName;
-    
-    
+
+
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "mtm_cv_dir_languages", 
-               joinColumns = {@JoinColumn(name = "id_language")}, 
-               inverseJoinColumns = {@JoinColumn(name = "id_cv")})
+    @JoinTable(name = "mtm_cv_dir_languages",
+            joinColumns = {@JoinColumn(name = "id_language")},
+            inverseJoinColumns = {@JoinColumn(name = "id_cv")})
     private Set<Cv> cvs;
 }

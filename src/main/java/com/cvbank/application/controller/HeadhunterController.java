@@ -11,14 +11,14 @@ import java.util.List;
 public class HeadhunterController {
 
     @PostMapping("/search_cv_by_criteria")
-    public List <СvResponse> searchCvByCriteria(@RequestHeader(value = "Authorization") String token,
-                                                @RequestBody SearchCvRequest request){
+    public List<СvResponse> searchCvByCriteria(@RequestHeader(value = "Authorization") String token,
+                                               @RequestBody SearchCvRequest request) {
         return null;
     }
 
     @PostMapping("/save_list_cv")
     public void saveListCv(@RequestHeader(value = "Authorization") String token,
-                           @RequestBody List <Integer> cvs) {
+                           @RequestBody List<Integer> cvs) {
 
     }
 
